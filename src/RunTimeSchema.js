@@ -3,25 +3,28 @@
 const {RuntimeSchemaTypeError} =  require("./Exeptions/type_error.js");
 const {PrimitiveTypes} = require("./primitive_types");
 
- function createRunTimeSchema(allow_verifiers=true,allow_console=true){return{
+ class  RunTimeSchema{
 
-    allow_verifiers:allow_verifiers,
-    allow_console:allow_console,
+    constructor(allow_verifiers=true,allow_console=true) {
+        this.allow_verifiers = allow_verifiers;
+        this.allow_console = allow_console;
+    }
+
     enable(){
         this.allow_verifiers = true;
         this.allow_console = true;
-    },
+    };
 
     disable(){
         this.allow_verifiers = false;
         this.allow_console = false;
-    },
+    };
 
     log(message){
         if(this.allow_console){
             console.log(message);
         }
-    },
+    };
 
     ensure_types(element,types){
         if(!this.allow_verifiers){
@@ -63,10 +66,10 @@ const {PrimitiveTypes} = require("./primitive_types");
 
 
 
-}}
+}
 
 
 module.exports = {
-    createRunTimeSchema,
+    RunTimeSchema,
     PrimitiveTypes
 };
