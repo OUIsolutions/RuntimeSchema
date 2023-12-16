@@ -1,7 +1,7 @@
 
 
 const {RuntimeSchemaTypeError} =  require("./Exeptions/type_error.js");
-
+const {PrimitiveTypes} = require("./primitive_types");
 
  let RunTimeSchema = {
 
@@ -31,5 +31,6 @@ const {RuntimeSchemaTypeError} =  require("./Exeptions/type_error.js");
 }
 
 module.exports = {
-    RunTimeSchema
+    RunTimeSchema,
+    PrimitiveTypes
 };
