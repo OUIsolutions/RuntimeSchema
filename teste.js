@@ -1,7 +1,8 @@
 
 
-const {RunTimeSchema,PrimitiveTypes}  = require("./src/RunTimeSchema");
+const {createRunTimeSchema,PrimitiveTypes}  = require("./src/RunTimeSchema");
 
-RunTimeSchema.enable();
+let my_schema = createRunTimeSchema();
 
-RunTimeSchema.ensure_types(true,[PrimitiveTypes.number,PrimitiveTypes.string]);
+
+my_schema.ensure_types(true,[PrimitiveTypes.number,PrimitiveTypes.string]);
