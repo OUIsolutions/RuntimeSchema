@@ -3,6 +3,15 @@
 const {RuntimeSchemaTypeError} =  require("./Exeptions/type_error.js");
 const {PrimitiveTypes} = require("./primitive_types");
 
+function  get_expected_type_name(type){
+    let type_of_type_arg = type.constructor.name;
+    let type_arg_is_a_string =type_of_type_arg === PrimitiveTypes.string;
+    if(type_arg_is_a_string){
+        return  type;
+    }
+    return type_of_type_arg;
+}
+
  class  RunTimeSchema{
 
     constructor(allow_verifiers=true,allow_console=true) {
@@ -32,14 +41,6 @@ const {PrimitiveTypes} = require("./primitive_types");
         }
         let element_type_name = element.constructor.name;
 
-        function  get_expected_type_name(type){
-            let type_of_type_arg = type.constructor.name;
-            let type_arg_is_a_string =type_of_type_arg === PrimitiveTypes.string;
-            if(type_arg_is_a_string){
-                return  type;
-            }
-            return type_of_type_arg;
-        }
 
 
         let type_of_type_arg = types.constructor.name;
