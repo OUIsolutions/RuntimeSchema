@@ -6,4 +6,4 @@ class RuntimeSchemaTypeError extends  TypeError{
     }
 }
 
-module.exports = RuntimeSchemaTypeError;
+module.exports = {RuntimeSchemaTypeError}

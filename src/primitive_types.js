@@ -5,4 +5,4 @@ const  PrimitiveTypes = {
     "array":"Array"
 }
 
-module.exports = PrimitiveTypes;
+module.exports = {PrimitiveTypes}
