@@ -34,38 +34,24 @@ const {PrimitiveTypes} = require("./primitive_types");
         }
 
 
-        function clojure_ensure_type(expected_type_name){
-            if(element_type_name !== expected_type_name){
-                throw new RuntimeSchemaTypeError(element,expected_type_name);
-            }
-        }
-
-
-
         let type_of_type_arg = types.constructor.name;
+        //means the type arg is like Primitive.string
         let type_arg_is_unique = type_of_type_arg !== PrimitiveTypes.array;
         if(type_arg_is_unique){
             let expected_type_name = get_expected_type_name(types);
-            clojure_ensure_type(expected_type_name);
+            if(element_type_name !== expected_type_name){
+                throw new RuntimeSchemaTypeError(element,expected_type_name);
+            }
             return;
         }
 
+        //means the type arg is like [Primitive.string,Primitive.number]
+
         let expected_types = types.map(get_expected_type_name);
-        let generated_error;
-        expected_types.forEach((type_name)=>{
-            if(generated_error){
-                return;
-            }
+        if(!expected_types.includes(element_type_name)){
+            throw new RuntimeSchemaTypeError(element,expected_types);
 
-            try{
-                clojure_ensure_type(type_name);
-            }catch (error){
-                generated_error = error;
-                generated_error.message = `The element ${element} is not inside ${expected_types}`
-            }
-        })
-
-
+        }
 
 
     }
