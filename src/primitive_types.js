@@ -2,7 +2,8 @@
 const  PrimitiveTypes = {
     "string":"String",
     "object":"Object",
-    "array":"Array"
+    "array":"Array",
+    "number":"Number"
 }
 
 module.exports = {PrimitiveTypes}

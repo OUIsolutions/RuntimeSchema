@@ -7,11 +7,22 @@ const {PrimitiveTypes} = require("./primitive_types");
 
     allow_verifiers:false,
     allow_console:false,
+    enable(){
+        this.allow_verifiers = true;
+        this.allow_console = true;
+    },
+
+    disable(){
+        this.allow_verifiers = false;
+        this.allow_console = false;
+    },
+
 
     ensure_types(element,types){
         if(!this.allow_verifiers){
             return element;
         }
+        let element_type_name = element.constructor.name;
 
         function  get_expected_type_name(type){
             let type_of_type_arg = type.constructor.name;
@@ -23,10 +34,8 @@ const {PrimitiveTypes} = require("./primitive_types");
         }
 
 
-        function clojure_ensure_type(type){
-            let element_type = element.constructor.name;
-            let expected_type_name = get_expected_type_name(type);
-            if(element_type !== expected_type_name){
+        function clojure_ensure_type(expected_type_name){
+            if(element_type_name !== expected_type_name){
                 throw new RuntimeSchemaTypeError(element,expected_type_name);
             }
         }
@@ -34,21 +43,30 @@ const {PrimitiveTypes} = require("./primitive_types");
 
 
         let type_of_type_arg = types.constructor.name;
-        if(type_of_type_arg !== PrimitiveTypes.array){
-            clojure_ensure_type(types);
+        let type_arg_is_unique = type_of_type_arg !== PrimitiveTypes.array;
+        if(type_arg_is_unique){
+            let expected_type_name = get_expected_type_name(types);
+            clojure_ensure_type(expected_type_name);
             return;
         }
-        let expected_types = types.map(get_expected_type_name);
 
-        expected_types.forEach((type)=>{
+        let expected_types = types.map(get_expected_type_name);
+        let generated_error;
+        expected_types.forEach((type_name)=>{
+            if(generated_error){
+                return;
+            }
+
             try{
-                clojure_ensure_type(type);
+                clojure_ensure_type(type_name);
             }catch (error){
-                error.message = `The element ${element} is not inside ${expected_types}`
+                generated_error = error;
+                generated_error.message = `The element ${element} is not inside ${expected_types}`
             }
         })
 
-        
+
+
 
     }
 }
